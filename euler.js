@@ -1,4 +1,9 @@
-var _u = require("./underscore.js");
+//npm install underscore
+//npm install underscore.string
+
+var _u = require("underscore");
+var _s = require('underscore.string');
+
 var Euler = (function() {
     var primefactors = function(number) {
         var factors = [1], n = number;
@@ -9,6 +14,10 @@ var Euler = (function() {
             }
         }
         return factors;
+    };
+    
+    var isPalindrome = function(number) {
+        var s = ''+number;  
     };
     
     var problems = {
@@ -40,6 +49,16 @@ var Euler = (function() {
         3: {
             'link': 'http://projecteuler.net/index.php?section=problems&id=3',
             'desc': "What is the largest prime factor of the number 600851475143",
+            solve: function() {
+                var n = 600851475143;
+                
+                return _u.max(primefactors(n)); 
+                // or return http://www.wolframalpha.com/input/?i=largest+prime+factor+600851475143
+            }
+        },        
+        4: {
+            'link': 'http://projecteuler.net/index.php?section=problems&id=4',
+            'desc': "Find the largest palindrome made from the product of two 3-digit numbers",
             solve: function() {
                 var n = 600851475143;                
                 return _u.max(primefactors(n));                
