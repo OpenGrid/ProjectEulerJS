@@ -17,7 +17,11 @@ var Euler = (function() {
     };
     
     var isPalindrome = function(number) {
-        var s = ''+number;  
+        var s = ''+number;     
+        // npm underscroe.string module doesn't seem to have reverseString at this stage?        
+        // this is nasty
+        return (Array.prototype.reverse.apply(s.split('')).join('') == s);
+        // "Being a pallindrome is a lexical property rather than a mathematical one" - Dan Dyer
     };
     
     var problems = {
@@ -60,8 +64,14 @@ var Euler = (function() {
             'link': 'http://projecteuler.net/index.php?section=problems&id=4',
             'desc': "Find the largest palindrome made from the product of two 3-digit numbers",
             solve: function() {
-                var n = 600851475143;                
-                return _u.max(primefactors(n));                
+                var maxpal = 0, p;
+                for(var a = 999; a >= 100; a--) {
+                    for(var b = a; b >= 100; b--) {
+                        p = a*b;
+                        if(isPalindrome(p) && p > maxpal) maxpal = p;
+                    }
+                }
+                return maxpal;
             }
         }
     };
@@ -76,3 +86,4 @@ var Euler = (function() {
 console.log(Euler.result(1));
 console.log(Euler.result(2));
 console.log(Euler.result(3));
+console.log(Euler.result(4));
