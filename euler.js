@@ -20,8 +20,22 @@ var Euler = (function() {
         var s = ''+number;     
         // npm underscroe.string module doesn't seem to have reverseString at this stage?        
         // this is nasty
-        return (Array.prototype.reverse.apply(s.split('')).join('') == s);
+        //return (_s.reverseString(s) == s);
+        return (Array.prototype.reverse.apply(s.split('')).join('') == s);        
         // "Being a pallindrome is a lexical property rather than a mathematical one" - Dan Dyer
+    };
+    
+    // return primes collections up to max
+    var primes = function(max) {        
+        var nset = _u.range(1,max);
+        // Eratosthenes' sieve
+        var sieve = function(nset, n) {
+            return _u(nset).reject(function(x){return x % n === 0;});            
+        };        
+        for(var i = 2; i <= Math.sqrt(max); i++) {
+            nset = sieve(nset, i);
+        }
+        return nset;
     };
     
     var problems = {
@@ -73,6 +87,34 @@ var Euler = (function() {
                 }
                 return maxpal;
             }
+        },
+        5: {
+            'link': 'http://projecteuler.net/index.php?section=problems&id=5',
+            'desc': "What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20",
+            solve: function() { 
+                var i,j,k, pfactors, pwrcntr, total = [], maxn = 20, result = 1;
+                
+                // from 1 to 20 -> maxn = 20                
+                for(i = 1; i <= maxn; i++) {
+                    // calculating prime factors needed to calculate Least Common Multiple
+                    // http://en.wikipedia.org/wiki/Least_common_multiple#Finding_least_common_multiples_by_prime_factorization
+                    pfactors = primefactors(i);
+                    pwrcntr = [];
+                    // looking for highest powers
+                    for(j in pfactors) {
+                        pwrcntr[pfactors[j]] = (pwrcntr[pfactors[j]] === undefined)? 1: pwrcntr[pfactors[j]] + 1; 
+                    }                    
+                    for(k in pwrcntr) {
+                        if(total[k] === undefined) total[k] = pwrcntr[k];
+                        else total[k] = (pwrcntr[k] > total[k])? pwrcntr[k]: total[k];
+                    }                                        
+                }
+                // The lcm will be the product of multiplying the highest power in each prime factor category together
+                for(i in total) {
+                    result *= (total[i] !== undefined)? Math.pow(i, total[i]): 1;
+                }
+                return result;
+            }
         }
     };
     return {
@@ -87,3 +129,4 @@ console.log(Euler.result(1));
 console.log(Euler.result(2));
 console.log(Euler.result(3));
 console.log(Euler.result(4));
+console.log(Euler.result(5));
