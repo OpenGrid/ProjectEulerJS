@@ -115,6 +115,25 @@ var Euler = (function() {
                 }
                 return result;
             }
+        },
+        6: {
+            'link': 'http://projecteuler.net/index.php?section=problems&id=6',
+            'desc': "Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.",
+            solve: function() {
+                var N = 100;
+                // Sum of N natural numbers squared
+                var sumsq = Math.pow((N * (N + 1))/2, 2);
+                // Sum of N squared natural numbers
+                // http://en.wikipedia.org/wiki/Square_pyramidal_number
+                var sumofsq = N * (N + 1) * (2 * N + 1) / 6;
+                return sumsq - sumofsq;
+                /*
+                //Range - Reduce for practice purposes
+                return Math.pow(_u.range(1,N+1).reduce(function(memo, x) {return memo + x;}), 2) - 
+                _u.range(1,N+1).reduce(function(memo, x){return memo + x*x;});
+                */
+                
+            }
         }
     };
     return {
@@ -130,3 +149,4 @@ console.log(Euler.result(2));
 console.log(Euler.result(3));
 console.log(Euler.result(4));
 console.log(Euler.result(5));
+console.log(Euler.result(6));
