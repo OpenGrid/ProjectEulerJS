@@ -1,8 +1,8 @@
 //npm install underscore
 //npm install underscore.string
 
-var _u = require("underscore");
-var _s = require('underscore.string');
+var _ = require("underscore");
+//var _s = require('underscore.string');
 
 var Euler = (function() {
     var primefactors = function(number) {
@@ -20,20 +20,21 @@ var Euler = (function() {
         var s = ''+number;     
         // npm underscroe.string module doesn't seem to have reverseString at this stage?        
         // this is nasty
-        //return (_s.reverseString(s) == s);
+        //return (_s(s).reverse() == s);
         return (Array.prototype.reverse.apply(s.split('')).join('') == s);        
         // "Being a pallindrome is a lexical property rather than a mathematical one" - Dan Dyer
     };
     
-    // return primes collections up to max
+    // return primes collections up no greater than max
     var primes = function(max) {        
-        var nset = _u.range(1,max);
+        var nset = _.range(2,max);
+        
         // Eratosthenes' sieve
         var sieve = function(nset, n) {
-            return _u(nset).reject(function(x){return x % n === 0;});            
-        };        
-        for(var i = 2; i <= Math.sqrt(max); i++) {
-            nset = sieve(nset, i);
+            return _(nset).reject(function(x){return x !== n && x % n === 0;});            
+        };                
+        for(var j = 0; j <= Math.sqrt(max);j++) {
+            nset = sieve(nset, nset[j]);                        
         }
         return nset;
     };
@@ -43,7 +44,7 @@ var Euler = (function() {
             'link': "http://projecteuler.net/index.php?section=problems&id=1",
             'desc': "Find the sum of all the multiples of 3 or 5 below 1000.",
             solve: function() {
-                return _u.range(0, 1000).reduce(function(memo, x) {
+                return _.range(0, 1000).reduce(function(memo, x) {
                     return (x % 5 === 0 || x % 3 === 0) ? memo + x : memo;
                 }, 0);
             }
@@ -70,7 +71,7 @@ var Euler = (function() {
             solve: function() {
                 var n = 600851475143;
                 
-                return _u.max(primefactors(n)); 
+                return _.max(primefactors(n)); 
                 // or return http://www.wolframalpha.com/input/?i=largest+prime+factor+600851475143
             }
         },        
@@ -129,10 +130,18 @@ var Euler = (function() {
                 return sumsq - sumofsq;
                 /*
                 //Range - Reduce for practice purposes
-                return Math.pow(_u.range(1,N+1).reduce(function(memo, x) {return memo + x;}), 2) - 
-                _u.range(1,N+1).reduce(function(memo, x){return memo + x*x;});
-                */
-                
+                return Math.pow(_.range(1,N+1).reduce(function(memo, x) {return memo + x;}), 2) - 
+                _.range(1,N+1).reduce(function(memo, x){return memo + x*x;});
+                */                
+            }
+        },
+        7: {
+            'link': 'http://projecteuler.net/index.php?section=problems&id=7',
+            'desc': "What is the 10 001st prime number",
+            solve: function() {
+                var N = 10001;                
+                // http://primes.utm.edu/howmany.shtml
+                return primes(N * (Math.log(N) + Math.log(Math.log(N-1))))[N-1];                
             }
         }
     };
@@ -144,9 +153,10 @@ var Euler = (function() {
     };
 })();
 
-console.log(Euler.result(1));
-console.log(Euler.result(2));
-console.log(Euler.result(3));
-console.log(Euler.result(4));
-console.log(Euler.result(5));
-console.log(Euler.result(6));
+//console.log(Euler.result(1));
+//console.log(Euler.result(2));
+//console.log(Euler.result(3));
+//console.log(Euler.result(4));
+//console.log(Euler.result(5));
+//console.log(Euler.result(6));
+console.log(Euler.result(7));
