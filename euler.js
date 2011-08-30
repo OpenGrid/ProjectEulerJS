@@ -164,6 +164,23 @@ var Euler = (function() {
                 }
                 return max;
             }
+        },
+        9: {
+            'link': 'http://projecteuler.net/index.php?section=problems&id=9',
+            'desc': "There exists exactly one Pythagorean triplet for which a + b + c = 1000. Find the product abc",
+            solve: function() {
+                var a, b, c, result;
+                // http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Pythag/pythag.html#genmeths
+                for(a = 1; a < 300; a++) {
+                    for(b = a + 1; b < 400; b++) {
+                        c = 1000 - (a + b); 
+                        if(c > b && a * a + b * b === c * c) {                            
+                            result = a * b * c;
+                        }
+                    }
+                }                    
+                return result;
+            }
         }
     };
     return {
@@ -181,4 +198,5 @@ var Euler = (function() {
 //console.log(Euler.result(5));
 //console.log(Euler.result(6));
 //console.log(Euler.result(7));
-console.log(Euler.result(8));
+//console.log(Euler.result(8));
+console.log(Euler.result(9));
